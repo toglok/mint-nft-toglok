@@ -4,7 +4,7 @@
   "homepage": "https://github.com/toglok/mint-nft-toglok",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/toglok/mint-nft-toglok"
+    "url": "git+https://github.com/toglok/mint-nft-toglok.git"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
