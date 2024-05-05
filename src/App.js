@@ -4,24 +4,23 @@ import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Web3 from 'web3';
 
-// Hapus impor yang tidak diperlukan
+// ABI dan ADDRESS harus didefinisikan di sini atau diimpor dari file lain
 
-async function connectWallet() {
+async function connectWallet() { // Mengubah nama fungsi menjadi dengan huruf kapital 'W'
   try {
     if (window.ethereum) {
       var web3 = new Web3(window.ethereum);
-      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      await window.ethereum.send('eth_requestAccounts'); // Menambahkan 'await' di sini
       var accounts = await web3.eth.getAccounts();
-      var account = accounts[0]; // Diperbaiki: Menyimpan alamat dompet pertama ke dalam variabel account
+      var account = accounts[0]; // Menambah 'var' untuk mendefinisikan variabel 'account'
       document.getElementById('wallet-address').textContent = account;
 
-      // Gunakan nama variabel yang berbeda untuk instance kontrak
-      var myContract = new web3.eth.Contract(ABI, ADDRESS);
-      document.getElementById('mint').onclick = async () => { // Diperbaiki: Perbaikan sintaksis onClick
+      var contract = new web3.eth.Contract(ABI, ADDRESS); // Mendefinisikan variabel 'contract'
+      document.getElementById('mint').onclick = async () => {
         var _mintAmount = Number(document.querySelector("[name=amount]").value);
-        var minRate = Number(await myContract.methods.cost().call());
-        var totalAmount = minRate * _mintAmount;
-        myContract.methods.mint(account, _mintAmount).send({ from: account, value: String(totalAmount) });
+        var mintRate = Number(await contract.methods.cost().call());
+        var totalAmount = mintRate * _mintAmount;
+        await contract.methods.mint(account, _mintAmount).send({ from: account, value: String(totalAmount) });
       }
     }
   } catch (ex) {
@@ -53,3 +52,4 @@ function App() {
 }
 
 export default App;
+
